@@ -1,0 +1,69 @@
+repos:
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.36.1
+    hooks:
+      - id: check-dependabot
+      - id: check-github-workflows
+      - id: check-github-actions
+      - id: check-gitlab-ci
+        args: ["--format-regex", "python"]
+      - id: check-renovate
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.10
+    hooks:
+      - id: actionlint
+        additional_dependencies:
+          - "github.com/wasilibs/go-shellcheck/cmd/shellcheck@latest"
+
+  - repo: https://github.com/woodruffw/zizmor-pre-commit
+    rev: v1.22.0
+    hooks:
+      - id: zizmor
+        args: ["--no-progress", "--fix"]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.0
+    hooks:
+      - id: ruff-check
+        args: ["--exit-non-zero-on-fix"]
+      - id: ruff-format
+
+  - repo: https://github.com/EbodShojaei/bake
+    rev: v1.4.5
+    hooks:
+      - id: mbake-format
+        args: ["--config=.github/bake.toml"]
+      - id: mbake-validate
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-illegal-windows-names
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: check-case-conflict
+
+  # Should be the last:
+  - repo: meta
+    hooks:
+      - id: check-useless-excludes
+
+exclude: ^(\{\{cookiecutter\.project_name\}\})
+
+ci:
+  autofix_prs: true
+  autoupdate_schedule: weekly
+  submodules: false

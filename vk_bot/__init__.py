@@ -1,6 +1,6 @@
 __version__ = '0.1.0'
 
-from typing import List, Optional, Union, Callable
+from typing import List, Optional, Union, Callable, Dict, Any
 import time
 import re
 from . import apihelper
@@ -16,8 +16,9 @@ from .handlers import (
 )
 
 class VKBot:
-    def __init__(self, token: str, state_storage: BaseStorage = None):
+    def __init__(self, token: str, group_id: int = None, state_storage: BaseStorage = None):
         self.token = token
+        self._group_id = group_id
         self._me = None
         self.message_handlers: List[MessageHandler] = []
         self.callback_query_handlers: List[CallbackQueryHandler] = []
@@ -25,26 +26,32 @@ class VKBot:
         self.lp_server = None
         self._polling = False
         self.state_manager = StateManager(state_storage or MemoryStorage())
-    
+
+    @property
+    def group_id(self) -> int:
+        if self._group_id is None:
+            self._group_id = apihelper.get_group_id(self.token)
+        return self._group_id
+
     @property
     def me(self) -> types.User:
         if not self._me:
             data = apihelper.get_me(self.token)
             self._me = types.User.from_dict(data)
         return self._me
-    
+
     def get_state(self, user_id: int) -> Optional[str]:
         return self.state_manager.get_state(user_id)
-    
+
     def set_state(self, user_id: int, state: str):
         self.state_manager.set_state(user_id, state)
-    
+
     def get_state_data(self, user_id: int) -> Dict[str, Any]:
         return self.state_manager.get_data(user_id)
-    
+
     def reset_state(self, user_id: int):
         self.state_manager.reset(user_id)
-    
+
     def update_state_data(self, user_id: int, **kwargs):
         self.state_manager.update_data(user_id, **kwargs)
 
@@ -68,7 +75,7 @@ class VKBot:
             self.message_handlers.append(handler_obj)
             return handler
         return decorator
-    
+
     def callback_query_handler(
         self,
         func: Optional[Callable] = None,
@@ -83,7 +90,7 @@ class VKBot:
             self.callback_query_handlers.append(handler_obj)
             return handler
         return decorator
-    
+
     def middleware_handler(self, update_types: Optional[List[str]] = None):
         def decorator(handler):
             handler_obj = MiddlewareHandler(
@@ -93,7 +100,7 @@ class VKBot:
             self.middleware_handlers.append(handler_obj)
             return handler
         return decorator
-    
+
     def send_message(
         self,
         chat_id: int,
@@ -113,7 +120,7 @@ class VKBot:
             reply_to=reply_to,
             **kwargs
         )
-    
+
     def reply_to(self, message: types.Message, text: str, **kwargs) -> dict:
         return self.send_message(
             message.chat.id,
@@ -121,7 +128,7 @@ class VKBot:
             reply_to=message.id,
             **kwargs
         )
-    
+
     def send_photo(
         self,
         chat_id: int,
@@ -137,7 +144,7 @@ class VKBot:
             caption=caption,
             **kwargs
         )
-    
+
     def answer_callback_query(
         self,
         callback_query_id: str,
@@ -151,72 +158,72 @@ class VKBot:
         }
         if text:
             params['message'] = text
-            
+
         return apihelper._make_request(
             self.token,
             'messages.sendMessageEventAnswer',
             params
         )
-    
+
     def polling(self, non_stop: bool = True, interval: int = 1):
         self._polling = True
-        
+
         while self._polling:
             try:
                 if not self.lp_server:
-                    self.lp_server = apihelper.get_long_poll_server(self.token)
-                
+                    self.lp_server = apihelper.get_long_poll_server(self.token, self.group_id)
+
                 raw_updates = apihelper.get_long_poll_updates(
                     self.lp_server.server,
                     self.lp_server.key,
                     self.lp_server.ts
                 )
-                
+
                 parsed_updates = apihelper.process_updates(raw_updates)
-                
+
                 for update_data in parsed_updates:
                     self._process_update(update_data)
-                
+
                 if 'ts' in raw_updates:
                     self.lp_server.ts = raw_updates['ts']
-                
+
             except exception.VKAPIError as e:
                 self.lp_server = None
                 if not non_stop:
                     raise
                 time.sleep(interval)
-                
+
             except Exception as e:
                 print(f"Polling error: {e}")
                 if not non_stop:
                     raise
                 time.sleep(interval)
-    
+
     def _process_update(self, update_data: dict):
         update = types.Update(
             update_id=0,
             type=update_data['type'],
             object=update_data['object']
         )
-        
+
         for middleware in self.middleware_handlers:
             if middleware.check(update):
                 result = middleware.process(self, update)
                 if result is False:
                     return
-        
+
         if update.message:
             for handler in self.message_handlers:
                 if handler.check(update):
                     handler.callback(update.message)
                     break
-        
+
         elif update.callback_query:
             for handler in self.callback_query_handlers:
                 if handler.check(update):
                     handler.callback(update.callback_query)
                     break
-    
+
     def stop_polling(self):
         self._polling = False
 

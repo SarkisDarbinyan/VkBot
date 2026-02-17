@@ -280,10 +280,19 @@ class LongPollServer:
     ts: str
     pts: int = None
 
-def get_long_poll_server(token: str) -> LongPollServer:
-    result = _make_request(token, 'messages.getLongPollServer', {
-        'need_pts': 1,
-        'lp_version': 3
+def get_group_id(token: str) -> int:
+    result = _make_request(token, 'groups.getById')
+    if isinstance(result, list):
+        groups = result
+    else:
+        groups = result.get('groups', [])
+    if not groups:
+        raise ValueError('Unable to get group_id. Check that the token is a community token.')
+    return groups[0]['id']
+
+def get_long_poll_server(token: str, group_id: int) -> LongPollServer:
+    result = _make_request(token, 'groups.getLongPollServer', {
+        'group_id': group_id
     })
     
     return LongPollServer(
@@ -301,7 +310,7 @@ def get_long_poll_updates(
 ) -> dict:
     session = get_session()
     
-    url = f"{server}?act=a_check&key={key}&ts={ts}&wait={wait}&mode=2&version=3"
+    url = f"{server}?act=a_check&key={key}&ts={ts}&wait={wait}"
     
     try:
         response = session.get(url, timeout=wait + 5)
@@ -340,15 +349,7 @@ def parse_update(update_data: list) -> Optional[dict]:
     return None
 
 def process_updates(raw_updates: dict) -> List[dict]:
-    parsed = []
-    
-    if 'updates' in raw_updates:
-        for update in raw_updates['updates']:
-            parsed_update = parse_update(update)
-            if parsed_update:
-                parsed.append(parsed_update)
-    
-    return parsed
+    return raw_updates.get('updates', [])
 
 def create_keyboard(buttons: List[List[dict]], one_time: bool = False) -> dict:
     return {

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Callable
 from .storage import BaseStorage, MemoryStorage
 
 class StateManager:

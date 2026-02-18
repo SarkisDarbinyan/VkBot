@@ -1,4 +1,4 @@
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 from typing import List, Optional, Union, Callable, Dict, Any
 import time
@@ -49,11 +49,14 @@ class VKBot:
     def get_state_data(self, user_id: int) -> Dict[str, Any]:
         return self.state_manager.get_data(user_id)
 
+    def update_state_data(self, user_id: int, **kwargs):
+        self.state_manager.update_data(user_id, **kwargs)
+
     def reset_state(self, user_id: int):
         self.state_manager.reset(user_id)
 
-    def update_state_data(self, user_id: int, **kwargs):
-        self.state_manager.update_data(user_id, **kwargs)
+    def _get_state_context(self, user_id: int) -> StateContext:
+        return StateContext(self, user_id)
 
     def message_handler(
         self,
@@ -61,7 +64,8 @@ class VKBot:
         regexp: Optional[str] = None,
         func: Optional[Callable] = None,
         content_types: Optional[List[str]] = None,
-        chat_types: Optional[List[str]] = None
+        chat_types: Optional[List[str]] = None,
+        state: Optional[Union[str, List[str]]] = None
     ):
         def decorator(handler):
             handler_obj = MessageHandler(
@@ -70,7 +74,8 @@ class VKBot:
                 regexp=regexp,
                 func=func,
                 content_types=content_types,
-                chat_types=chat_types
+                chat_types=chat_types,
+                state=state
             )
             self.message_handlers.append(handler_obj)
             return handler
@@ -79,13 +84,15 @@ class VKBot:
     def callback_query_handler(
         self,
         func: Optional[Callable] = None,
-        data: Optional[Union[str, re.Pattern]] = None
+        data: Optional[Union[str, re.Pattern]] = None,
+        state: Optional[Union[str, List[str]]] = None
     ):
         def decorator(handler):
             handler_obj = CallbackQueryHandler(
                 callback=handler,
                 func=func,
-                data=data
+                data=data,
+                state=state
             )
             self.callback_query_handlers.append(handler_obj)
             return handler
@@ -141,6 +148,22 @@ class VKBot:
             self.token,
             chat_id,
             photo,
+            caption=caption,
+            **kwargs
+        )
+
+    def send_document(
+        self,
+        chat_id: int,
+        document: Union[str, bytes, object],
+        caption: str = None,
+        reply_markup: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = None,
+        **kwargs
+    ) -> dict:
+        return apihelper.send_document(
+            self.token,
+            chat_id,
+            document,
             caption=caption,
             **kwargs
         )
@@ -213,15 +236,29 @@ class VKBot:
                     return
 
         if update.message:
+            user_id = update.message.from_id
+            current_state = self.get_state(user_id)
+            state_context = self._get_state_context(user_id)
+            
             for handler in self.message_handlers:
-                if handler.check(update):
-                    handler.callback(update.message)
+                if handler.check(update, current_state):
+                    if handler.accepts_state:
+                        handler.callback(update.message, state_context)
+                    else:
+                        handler.callback(update.message)
                     break
 
         elif update.callback_query:
+            user_id = update.callback_query.from_id
+            current_state = self.get_state(user_id)
+            state_context = self._get_state_context(user_id)
+            
             for handler in self.callback_query_handlers:
-                if handler.check(update):
-                    handler.callback(update.callback_query)
+                if handler.check(update, current_state):
+                    if handler.accepts_state:
+                        handler.callback(update.callback_query, state_context)
+                    else:
+                        handler.callback(update.callback_query)
                     break
 
     def stop_polling(self):
@@ -233,5 +270,9 @@ __all__ = [
     'exception',
     'util',
     'message_handler',
-    'callback_query_handler'
+    'callback_query_handler',
+    'StateManager',
+    'MemoryStorage',
+    'RedisStorage',
+    'StateContext'
 ]

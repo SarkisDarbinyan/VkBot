@@ -1,0 +1,21 @@
+{
+    "cSpell.words": [
+        "apihelper",
+        "vkbot",
+        "VKAPI",
+        "memurai",
+        "callback_query",
+        "StateManager",
+        "StateContext",
+        "RedisStorage",
+        "MemoryStorage",
+        "objtype",
+        "forcelist",
+        "urllib3",
+        "backoff",
+        "precheckout",
+        "webhook",
+        "dataclass",
+        "peerid"
+    ]
+}

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, Callable
+from typing import Optional, Dict, Any
 from .storage import BaseStorage, MemoryStorage
 
 class StateManager:
@@ -24,13 +24,7 @@ class StateManager:
     
     def reset(self, user_id: int):
         self.storage.delete(user_id)
-    
-    def filter_by_state(self, state: str) -> Callable:
-        def decorator(func):
-            func._state_filter = state
-            return func
-        return decorator
-    
+
 class State:
     def __init__(self, name: str = None):
         self._name = name

@@ -259,9 +259,8 @@ class InlineKeyboardButton:
         return {"action": action}
 
 class ReplyKeyboardMarkup:
-    def __init__(self, resize_keyboard: bool = True, one_time_keyboard: bool = False):
+    def __init__(self, one_time_keyboard: bool = False):
         self.keyboard: List[List[KeyboardButton]] = []
-        self.resize_keyboard = resize_keyboard
         self.one_time_keyboard = one_time_keyboard
     
     def add(self, *buttons: KeyboardButton):
@@ -279,7 +278,6 @@ class ReplyKeyboardMarkup:
                 [btn.to_dict() for btn in row]
                 for row in self.keyboard
             ],
-            "resize_keyboard": self.resize_keyboard,
             "one_time": self.one_time_keyboard
         }
 
@@ -338,8 +336,8 @@ class CallbackQuery:
             data_value = payload.get('data')
         
         return cls(
-            id=data.get('id'),
-            from_id=data.get('from_id'),
+            id=data.get('event_id'),
+            from_id=data.get('user_id'),
             peer_id=data.get('peer_id'),
             message_id=data.get('conversation_message_id'),
             payload=payload,

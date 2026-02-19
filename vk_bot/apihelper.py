@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+from io import BytesIO
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from typing import Dict, Any, Optional, Union, BinaryIO, List
@@ -22,7 +23,6 @@ def get_session() -> requests.Session:
         _session = requests.Session()
         _session.headers.update({
             'User-Agent': USER_AGENT,
-            'Content-Type': 'application/x-www-form-urlencoded'
         })
         
         retry_strategy = Retry(
@@ -109,7 +109,6 @@ def send_message(
     token: str,
     chat_id: int,
     text: str,
-    parse_mode: str = None,
     reply_markup: dict = None,
     reply_to: int = None,
     **kwargs
@@ -120,9 +119,6 @@ def send_message(
         'random_id': int(time.time() * 1000),
         **kwargs
     }
-    
-    if parse_mode:
-        params['parse_mode'] = parse_mode
     
     if reply_markup:
         if isinstance(reply_markup, dict):
@@ -172,11 +168,29 @@ def send_photo(
     
     return _make_request(token, 'messages.send', params)
 
-def get_docs_upload_server(token: str) -> dict:
-    return _make_request(token, 'docs.getMessagesUploadServer')
+def get_docs_upload_server(token: str, peer_id: int = None) -> dict:
+    params = {}
+    if peer_id:
+        params['peer_id'] = peer_id
+    return _make_request(token, 'docs.getMessagesUploadServer', params)
 
 def get_messages_upload_server(token: str) -> dict:
     return _make_request(token, 'photos.getMessagesUploadServer')
+
+def _to_bytes_io(data: Union[str, bytes, BinaryIO], name: str = "picture.jpg") -> BytesIO:
+    if isinstance(data, str):
+        with open(data, 'rb') as f:
+            bytes_io = BytesIO(f.read())
+    elif isinstance(data, bytes):
+        bytes_io = BytesIO(data)
+    elif isinstance(data, BytesIO):
+        bytes_io = data
+    else:
+        bytes_io = BytesIO(data.read())
+    bytes_io.seek(0)
+    bytes_io.name = name
+    return bytes_io
+
 
 def upload_photo_to_server(
     token: str,
@@ -184,18 +198,8 @@ def upload_photo_to_server(
     photo: Union[str, bytes, BinaryIO]
 ) -> dict:
     session = get_session()
-    
-    if isinstance(photo, str):
-        with open(photo, 'rb') as f:
-            files = {'photo': f}
-            response = session.post(upload_url, files=files, timeout=TIMEOUT * 2)
-    elif isinstance(photo, bytes):
-        files = {'photo': photo}
-        response = session.post(upload_url, files=files, timeout=TIMEOUT * 2)
-    else:
-        files = {'photo': photo}
-        response = session.post(upload_url, files=files, timeout=TIMEOUT * 2)
-    
+    file = _to_bytes_io(photo, "photo.jpg")
+    response = session.post(upload_url, files={'photo': file}, timeout=TIMEOUT * 2)
     response.raise_for_status()
     return response.json()
 
@@ -219,7 +223,7 @@ def send_document(
     title: str = None,
     **kwargs
 ) -> dict:
-    upload_server = get_docs_upload_server(token)
+    upload_server = get_docs_upload_server(token, peer_id=chat_id)
     uploaded = upload_document_to_server(token, upload_server['upload_url'], document)
     saved_docs = save_uploaded_document(
         token,
@@ -230,7 +234,7 @@ def send_document(
     if not saved_docs:
         raise ValueError("Failed to save document")
     
-    doc_info = saved_docs[0]
+    doc_info = saved_docs['doc']
     attachment = f"doc{doc_info['owner_id']}_{doc_info['id']}"
     
     params = {
@@ -248,18 +252,8 @@ def upload_document_to_server(
     document: Union[str, bytes, BinaryIO]
 ) -> dict:
     session = get_session()
-    
-    if isinstance(document, str):
-        with open(document, 'rb') as f:
-            files = {'file': f}
-            response = session.post(upload_url, files=files, timeout=TIMEOUT * 2)
-    elif isinstance(document, bytes):
-        files = {'file': document}
-        response = session.post(upload_url, files=files, timeout=TIMEOUT * 2)
-    else:
-        files = {'file': document}
-        response = session.post(upload_url, files=files, timeout=TIMEOUT * 2)
-    
+    file = _to_bytes_io(document, "document.dat")
+    response = session.post(upload_url, files={'file': file}, timeout=TIMEOUT * 2)
     response.raise_for_status()
     return response.json()
 

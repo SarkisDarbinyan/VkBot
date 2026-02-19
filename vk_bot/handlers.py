@@ -144,39 +144,3 @@ class MiddlewareHandler(Handler):
     
     def process(self, bot, update: types.Update):
         return self.callback(bot, update)
-
-def message_handler(
-    commands: Optional[List[str]] = None,
-    regexp: Optional[str] = None,
-    func: Optional[Callable] = None,
-    content_types: Optional[List[str]] = None,
-    chat_types: Optional[List[str]] = None,
-    state: Optional[Union[str, List[str]]] = None
-):
-    def decorator(handler):
-        handler._handler = MessageHandler(
-            callback=handler,
-            commands=commands,
-            regexp=regexp,
-            func=func,
-            content_types=content_types,
-            chat_types=chat_types,
-            state=state
-        )
-        return handler
-    return decorator
-
-def callback_query_handler(
-    func: Optional[Callable] = None,
-    data: Optional[Union[str, Pattern]] = None,
-    state: Optional[Union[str, List[str]]] = None
-):
-    def decorator(handler):
-        handler._handler = CallbackQueryHandler(
-            callback=handler,
-            func=func,
-            data=data,
-            state=state
-        )
-        return handler
-    return decorator

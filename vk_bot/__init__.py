@@ -11,8 +11,7 @@ from .state.manager import StateManager
 from .state.storage import BaseStorage,MemoryStorage, RedisStorage
 from .state.context import StateContext
 from .handlers import (
-    MessageHandler, CallbackQueryHandler, MiddlewareHandler,
-    message_handler, callback_query_handler
+    MessageHandler, CallbackQueryHandler, MiddlewareHandler
 )
 
 class VKBot:
@@ -112,7 +111,6 @@ class VKBot:
         self,
         chat_id: int,
         text: str,
-        parse_mode: str = None,
         reply_markup: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = None,
         reply_to: int = None,
         **kwargs
@@ -122,7 +120,6 @@ class VKBot:
             self.token,
             chat_id,
             text,
-            parse_mode=parse_mode,
             reply_markup=markup_dict,
             reply_to=reply_to,
             **kwargs
@@ -171,16 +168,21 @@ class VKBot:
     def answer_callback_query(
         self,
         callback_query_id: str,
-        text: str = None,
-        show_alert: bool = False
+        user_id: int,
+        peer_id: int,
+        event_data: Optional[Dict[str, Any]] = None,
+        text: str = None
     ) -> dict:
         params = {
             'event_id': callback_query_id,
-            'user_id': 0,
-            'peer_id': 0,
+            'user_id': user_id,
+            'peer_id': peer_id,
         }
-        if text:
-            params['message'] = text
+        
+        if event_data is not None:
+             params['event_data'] = json.dumps(event_data)
+        elif text:
+            params['event_data'] = json.dumps({"type": "show_snackbar", "text": text})
 
         return apihelper._make_request(
             self.token,
@@ -269,8 +271,6 @@ __all__ = [
     'types',
     'exception',
     'util',
-    'message_handler',
-    'callback_query_handler',
     'StateManager',
     'MemoryStorage',
     'RedisStorage',

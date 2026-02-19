@@ -1,7 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, Any
-import redis
 import json
+
+try:
+    from redis import Redis
+    redis_installed = True
+except ImportError:
+    redis_installed = False
 
 class BaseStorage(ABC):
     @abstractmethod
@@ -36,7 +41,7 @@ class MemoryStorage(BaseStorage):
         self._states[user_id] = state
     
     def get_data(self, user_id: int) -> Dict[str, Any]:
-        return self._data.get(user_id, {})
+        return self._data.get(user_id, {}).copy()
     
     def set_data(self, user_id: int, data: Dict[str, Any]):
         self._data[user_id] = data
@@ -47,7 +52,9 @@ class MemoryStorage(BaseStorage):
 
 class RedisStorage(BaseStorage):
     def __init__(self, host='localhost', port=6379, db=0, password=None):
-        self.redis = redis.Redis(
+        if not redis_installed:
+            raise ImportError("Redis is not installed.")
+        self.redis = Redis(
             host=host, 
             port=port, 
             db=db, 

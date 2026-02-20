@@ -10,6 +10,8 @@ from . import util
 from .state.manager import StateManager
 from .state.storage import BaseStorage,MemoryStorage, RedisStorage
 from .state.context import StateContext
+from .state.group import StatesGroup
+from .state.machine import FiniteStateMachine, FSMRegistry
 from .handlers import (
     MessageHandler, CallbackQueryHandler, MiddlewareHandler
 )
@@ -274,5 +276,8 @@ __all__ = [
     'StateManager',
     'MemoryStorage',
     'RedisStorage',
-    'StateContext'
+    'StateContext',
+    'StatesGroup',
+    'FiniteStateMachine',
+    'FSMRegistry'
 ]

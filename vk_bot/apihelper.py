@@ -221,6 +221,7 @@ def send_document(
     chat_id: int,
     document: Union[str, bytes, BinaryIO],
     title: str = None,
+    caption: str = None,
     **kwargs
 ) -> dict:
     upload_server = get_docs_upload_server(token, peer_id=chat_id)
@@ -243,6 +244,9 @@ def send_document(
         'random_id': int(time.time() * 1000),
         **kwargs
     }
+    
+    if caption:
+        params['message'] = caption
     
     return _make_request(token, 'messages.send', params)
 

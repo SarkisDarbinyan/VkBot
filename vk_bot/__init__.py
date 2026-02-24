@@ -3,6 +3,7 @@ __version__ = '0.2.0'
 from typing import List, Optional, Union, Callable, Dict, Any
 import time
 import re
+import json
 from . import apihelper
 from . import types
 from . import exception

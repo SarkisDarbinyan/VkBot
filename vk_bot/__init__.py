@@ -227,6 +227,17 @@ class VKBot:
                     raise
                 time.sleep(interval)
 
+    def get_fsm(self, user_id: int, fsm_name: str = "default") -> 'FiniteStateMachine':
+        state = self.get_state(user_id)
+        fsm = FSMRegistry.get_or_create(fsm_name)
+        fsm.current_state = state
+        return fsm
+
+    def set_fsm_state(self, user_id: int, state: str, fsm_name: str = "default"):
+        fsm = self.get_fsm(user_id, fsm_name)
+        fsm.transition(fsm.current_state, state, None)
+        self.set_state(user_id, state)
+
     def _process_update(self, update_data: dict):
         update = types.Update(
             update_id=0,

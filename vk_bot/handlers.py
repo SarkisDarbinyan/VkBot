@@ -104,13 +104,12 @@ class CallbackQueryHandler(Handler):
             
         if self.func and not self.func(cb):
             return False
-        
+
         if self.data:
             if not cb.data:
                 return False
             if not self.data.search(cb.data):
                 return False
-        
         return True
 
 class ChatMemberHandler(Handler):
@@ -118,18 +117,20 @@ class ChatMemberHandler(Handler):
         self,
         callback: Callable,
         func: Optional[Callable] = None,
+        event_types: Optional[List[str]] = None,
         **kwargs
     ):
         super().__init__(callback, **kwargs)
         self.func = func
-    
+        self.event_types = event_types or ['group_join', 'group_leave', 'group_change_settings']
+
     def check(self, update: types.Update) -> bool:
-        if update.type not in ['group_join', 'group_leave', 'group_change_settings']:
+        if update.type not in self.event_types:
             return False
-        
+
         if self.func and not self.func(update):
             return False
-        
+
         return True
 
 class MiddlewareHandler(Handler):

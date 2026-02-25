@@ -11,6 +11,8 @@ class StateContext:
         self.user_id = user_id
         self._manager = bot.state_manager
         self._fsm = FSMRegistry.get_or_create(fsm_name)
+        current_state = self._manager.get_state(user_id)
+        self._fsm.current_state = current_state
     
     @property
     def current(self) -> Optional[str]:
@@ -39,6 +41,7 @@ class StateContext:
         self._manager.reset(self.user_id)
         if self._fsm.current_state:
             self._fsm.transition(self._fsm.current_state, None, self)
+        self._fsm.current_state = None
     
     @property
     def data(self) -> Dict[str, Any]:
@@ -56,7 +59,7 @@ class StateContext:
     def is_in_group(self, group: str) -> bool:
         if not self.current:
             return False
-        return False
+        return self._fsm.is_in_group(group)
     
     def get_next_states(self) -> list:
         return self._fsm.get_next_states(self.current, self)

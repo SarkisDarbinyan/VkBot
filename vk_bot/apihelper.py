@@ -347,7 +347,12 @@ def parse_update(update_data: list) -> Optional[dict]:
     return None
 
 def process_updates(raw_updates: dict) -> List[dict]:
-    return raw_updates.get('updates', [])
+    updates = []
+    for update_data in raw_updates.get('updates', []):
+        parsed = parse_update(update_data)
+        if parsed:
+            updates.append(parsed)
+    return updates
 
 def create_keyboard(buttons: List[List[dict]], one_time: bool = False) -> dict:
     return {

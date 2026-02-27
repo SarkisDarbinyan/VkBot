@@ -17,7 +17,7 @@ def test_send_message_uses_serialized_markup(bot, mock_api_calls) -> None:
     assert call["args"][1] == "messages.send"
 
     params = call["args"][2]
-    assert params["user_id"] == 111222333
+    assert params["peer_id"] == 111222333
     assert params["message"] == "Hello"
     assert isinstance(params["random_id"], int)
     assert params["random_id"] > 0
@@ -42,7 +42,7 @@ def test_reply_to_uses_message_peer_and_id(bot, mock_api_calls) -> None:
     assert call["args"][1] == "messages.send"
 
     params = call["args"][2]
-    assert params["user_id"] == message.chat.id
+    assert params["peer_id"] == message.chat.id
     assert params["reply_to"] == message.id
 
 

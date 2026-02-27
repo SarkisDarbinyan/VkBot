@@ -1,5 +1,7 @@
 from vk_bot import VKBot
+
 bot = VKBot("GROUP_TOKEN")
+
 
 @bot.message_handler()
 def send_echo(message):

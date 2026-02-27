@@ -4,7 +4,6 @@ SHELL := /usr/bin/env bash
 lint:
 	poetry run ruff check --exit-non-zero-on-fix
 	poetry run ruff format --check --diff
-	poetry run flake8 .
 	poetry run mypy .
 
 .PHONY: unit

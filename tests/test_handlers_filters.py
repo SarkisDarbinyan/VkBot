@@ -1,73 +1,81 @@
 from __future__ import annotations
+
 from vk_bot import VKBot
 from vk_bot.types import Message
+
 
 def test_command_filter(bot: VKBot, message_update_factory) -> None:
     results = []
 
-    @bot.message_handler(commands=['start', 'help'])
+    @bot.message_handler(commands=["start", "help"])
     def handle_commands(message: Message):
         results.append(message.text)
 
-    bot._process_update(message_update_factory(text='/start'))
-    bot._process_update(message_update_factory(text='/help info'))
-    bot._process_update(message_update_factory(text='normal text'))
+    bot._process_update(message_update_factory(text="/start"))
+    bot._process_update(message_update_factory(text="/help info"))
+    bot._process_update(message_update_factory(text="normal text"))
 
-    assert results == ['/start', '/help info']
+    assert results == ["/start", "/help info"]
+
 
 def test_regexp_filter(bot: VKBot, message_update_factory) -> None:
     results = []
 
-    @bot.message_handler(regexp=r'Order: (\d+)')
+    @bot.message_handler(regexp=r"Order: (\d+)")
     def handle_regexp(message: Message):
         results.append(message.text)
 
-    bot._process_update(message_update_factory(text='Order: 12345'))
-    bot._process_update(message_update_factory(text='Just a message'))
+    bot._process_update(message_update_factory(text="Order: 12345"))
+    bot._process_update(message_update_factory(text="Just a message"))
 
-    assert results == ['Order: 12345']
+    assert results == ["Order: 12345"]
+
 
 def test_func_filter(bot: VKBot, message_update_factory) -> None:
     results = []
 
-    @bot.message_handler(func=lambda msg: msg.text == 'Secret')
+    @bot.message_handler(func=lambda msg: msg.text == "Secret")
     def handle_func(message: Message):
-        results.append('found')
+        results.append("found")
 
-    bot._process_update(message_update_factory(text='Secret'))
-    bot._process_update(message_update_factory(text='Not secret'))
+    bot._process_update(message_update_factory(text="Secret"))
+    bot._process_update(message_update_factory(text="Not secret"))
 
-    assert results == ['found']
+    assert results == ["found"]
+
 
 def test_content_types_filter(bot: VKBot, message_update_factory) -> None:
     text_results = []
     photo_results = []
 
-    @bot.message_handler(content_types=['text'])
+    @bot.message_handler(content_types=["text"])
     def handle_text(message: Message):
         text_results.append(message.text)
 
-    @bot.message_handler(content_types=['photo'])
+    @bot.message_handler(content_types=["photo"])
     def handle_photo(message: Message):
-        photo_results.append('photo_received')
+        photo_results.append("photo_received")
 
-    bot._process_update(message_update_factory(text='just text'))
-    
-    photo_update = message_update_factory(text='', content={'attachments': [{'type': 'photo'}]})
+    bot._process_update(message_update_factory(text="just text"))
+
+    photo_update = message_update_factory(
+        text="", content={"attachments": [{"type": "photo"}]}
+    )
     bot._process_update(photo_update)
 
-    assert text_results == ['just text']
-    assert photo_results == ['photo_received']
+    assert text_results == ["just text"]
+    assert photo_results == ["photo_received"]
+
 
 def test_chat_types_filter(bot: VKBot, message_update_factory) -> None:
     private_results = []
     group_results = []
 
-    @bot.message_handler(chat_types=['private'])
+    @bot.message_handler(chat_types=["private"])
     def handle_private(message: Message):
         private_results.append(message.peer_id)
 
-    @bot.message_handler(chat_types=['group'])
+    @bot.message_handler(chat_types=["group"])
     def handle_group(message: Message):
         group_results.append(message.peer_id)
 
@@ -77,12 +85,13 @@ def test_chat_types_filter(bot: VKBot, message_update_factory) -> None:
     assert private_results == [111222333]
     assert group_results == [2000000001]
 
+
 def test_middleware_blocking(bot: VKBot, message_update_factory) -> None:
     results = []
 
     @bot.middleware_handler()
     def my_middleware(bot_instance, update):
-        if update.message and 'spam' in (update.message.text or ''):
+        if update.message and "spam" in (update.message.text or ""):
             return False
         return True
 
@@ -90,7 +99,7 @@ def test_middleware_blocking(bot: VKBot, message_update_factory) -> None:
     def handle_any(message):
         results.append(message.text)
 
-    bot._process_update(message_update_factory(text='hello'))
-    bot._process_update(message_update_factory(text='this is spam message'))
+    bot._process_update(message_update_factory(text="hello"))
+    bot._process_update(message_update_factory(text="this is spam message"))
 
-    assert results == ['hello']
+    assert results == ["hello"]

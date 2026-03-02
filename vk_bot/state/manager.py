@@ -1,6 +1,6 @@
 from typing import Any
 
-from .storage import BaseStorage, MemoryStorage
+from vk_bot.state.storage import BaseStorage, MemoryStorage
 
 
 class StateManager:

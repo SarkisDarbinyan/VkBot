@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Any
 
-from .machine import FiniteStateMachine, FSMRegistry
+from vk_bot.state.machine import FiniteStateMachine, FSMRegistry
 
 if TYPE_CHECKING:
-    from .. import VKBot
+    from vk_bot import VKBot
 
 
 class StateContext:

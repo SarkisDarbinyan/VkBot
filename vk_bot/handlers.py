@@ -3,8 +3,8 @@ import re
 from collections.abc import Callable
 from re import Pattern
 
-from . import types
-
+from vk_bot import types
+from vk_bot.util import extract_command
 
 class Handler:
     def __init__(self, callback: Callable, **filters):
@@ -64,9 +64,7 @@ class MessageHandler(Handler):
         if self.commands:
             if not message.text:
                 return False
-
-            from .util import extract_command
-
+            
             cmd, _ = extract_command(message.text)
             if not cmd or cmd not in self.commands:
                 return False

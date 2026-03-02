@@ -6,13 +6,13 @@ import time
 from collections.abc import Callable
 from typing import Any
 
-from . import apihelper, exception, types, util
-from .handlers import CallbackQueryHandler, MessageHandler, MiddlewareHandler
-from .state.context import StateContext
-from .state.group import StatesGroup
-from .state.machine import FiniteStateMachine, FSMRegistry
-from .state.manager import StateManager
-from .state.storage import BaseStorage, MemoryStorage, RedisStorage
+from vk_bot import apihelper, exception, types, util
+from vk_bot.handlers import CallbackQueryHandler, MessageHandler, MiddlewareHandler
+from vk_bot.state.context import StateContext
+from vk_bot.state.group import StatesGroup
+from vk_bot.state.machine import FiniteStateMachine, FSMRegistry
+from vk_bot.state.manager import StateManager
+from vk_bot.state.storage import BaseStorage, MemoryStorage, RedisStorage, PostgresStorage
 
 
 class VKBot:

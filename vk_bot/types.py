@@ -1,10 +1,10 @@
 import json
-from dataclasses import dataclass, field
+from typing import Any
+from pydantic import BaseModel, Field, validator
 from datetime import datetime
 
 
-@dataclass
-class User:
+class User(BaseModel):
     """VK user object.
 
     Corresponds to the ``user`` object in VK API.
@@ -26,21 +26,8 @@ class User:
     def mention(self) -> str:
         return f"[id{self.id}|{self.first_name}]"
 
-    @classmethod
-    def from_dict(cls, data: dict) -> "User":
-        return cls(
-            id=data.get("id"),
-            first_name=data.get("first_name", ""),
-            last_name=data.get("last_name", ""),
-            is_closed=data.get("is_closed", False),
-            can_access_closed=data.get("can_access_closed", True),
-            photo_100=data.get("photo_100"),
-            online=data.get("online", False),
-        )
 
-
-@dataclass
-class Chat:
+class Chat(BaseModel):
     id: int
     type: str = "private"
     title: str | None = None
@@ -53,12 +40,11 @@ class Chat:
         return cls(id=peer_id, type="private")
 
 
-@dataclass
-class Photo:
+class Photo(BaseModel):
     id: int
     owner_id: int
     access_key: str | None = None
-    sizes: list[dict] = field(default_factory=list)
+    sizes: list[dict] = Field(default_factory=list)
 
     @property
     def attachment(self) -> str:
@@ -75,8 +61,7 @@ class Photo:
         return max_size.get("url")
 
 
-@dataclass
-class Document:
+class Document(BaseModel):
     id: int
     owner_id: int
     title: str = ""
@@ -93,8 +78,7 @@ class Document:
         return base
 
 
-@dataclass
-class Video:
+class Video(BaseModel):
     id: int
     owner_id: int
     title: str = ""
@@ -110,8 +94,7 @@ class Video:
         return base
 
 
-@dataclass
-class Audio:
+class Audio(BaseModel):
     id: int
     owner_id: int
     artist: str = ""
@@ -124,8 +107,7 @@ class Audio:
         return f"audio{self.owner_id}_{self.id}"
 
 
-@dataclass
-class Message:
+class Message(BaseModel):
     """Incoming message.
 
     Corresponds to the ``message`` object in ``message_new`` VK API event.
@@ -139,13 +121,19 @@ class Message:
     out: bool = False
     important: bool = False
     deleted: bool = False
-    attachments: list[dict] = field(default_factory=list)
+    attachments: list[dict] = Field(default_factory=list)
     reply_message: "Message | None" = None
-    fwd_messages: list["Message"] = field(default_factory=list)
+    fwd_messages: list["Message"] = Field(default_factory=list)
     payload: dict | None = None
     action: dict | None = None
     _from_user: User | None = None
     _chat: Chat | None = None
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            datetime: lambda v: int(v.timestamp())
+        }    
 
     @property
     def chat(self) -> Chat:
@@ -204,52 +192,35 @@ class Message:
                 )
         return docs
 
-    @classmethod
-    def from_dict(cls, data: dict) -> "Message":
-        return cls(
-            id=data.get("id"),
-            date=datetime.fromtimestamp(data.get("date", 0)),
-            peer_id=data.get("peer_id"),
-            from_id=data.get("from_id"),
-            text=data.get("text", ""),
-            out=data.get("out", False),
-            important=data.get("important", False),
-            deleted=data.get("deleted", False),
-            attachments=data.get("attachments", []),
-            payload=data.get("payload"),
-            action=data.get("action"),
-        )
 
-
-class KeyboardButton:
+class KeyboardButton(BaseModel):
     """Reply keyboard button."""
 
-    def __init__(self, text: str, color: str = "primary"):
-        self.text = text
-        self.color = color
+    text: str
+    color: str = "primary"
 
     def to_dict(self) -> dict:
-        return {"action": {"type": "text", "label": self.text}, "color": self.color}
+        return {
+            "action": {
+                "type": "text", 
+                "label": self.text
+            }, 
+            "color": self.color
+        }
+    class Config:
+        extra = "forbid"
 
 
-class InlineKeyboardButton:
+class InlineKeyboardButton(BaseModel):
     """Inline keyboard button (callback, link, or VK App)."""
 
-    def __init__(
-        self,
-        text: str,
-        callback_data: str | None = None,
-        url: str | None = None,
-        vk_app_id: int | None = None,
-        owner_id: int | None = None,
-        hash: str | None = None,
-    ):
-        self.text = text
-        self.callback_data = callback_data
-        self.url = url
-        self.vk_app_id = vk_app_id
-        self.owner_id = owner_id
-        self.hash = hash
+    text: str
+    callback_data: str | None = None
+    url: str | None = None
+    vk_app_id: int | None = None
+    owner_id: int | None = None
+    hash: str | None = None
+    
 
     def to_dict(self) -> dict:
         action = {"type": "text", "label": self.text}
@@ -269,17 +240,19 @@ class InlineKeyboardButton:
                 action["hash"] = self.hash
 
         return {"action": action}
+    
+    class Config:
+        extra = "forbid"
 
 
-class ReplyKeyboardMarkup:
+class ReplyKeyboardMarkup(BaseModel):
     """Reply keyboard displayed below the input field.
 
     Corresponds to the ``keyboard`` object in VK API.
     """
 
-    def __init__(self, one_time_keyboard: bool = False):
-        self.keyboard: list[list[KeyboardButton]] = []
-        self.one_time_keyboard = one_time_keyboard
+    keyboard: list[list[KeyboardButton]] = Field(default_factory=list)
+    one_time_keyboard: bool = False
 
     def add(self, *buttons: KeyboardButton):
         row = list(buttons)
@@ -297,14 +270,13 @@ class ReplyKeyboardMarkup:
         }
 
 
-class InlineKeyboardMarkup:
+class InlineKeyboardMarkup(BaseModel):
     """Inline keyboard embedded in a message.
 
     Callback buttons send a ``message_event``.
     """
 
-    def __init__(self):
-        self.keyboard: list[list[InlineKeyboardButton]] = []
+    keyboard: list[list[InlineKeyboardButton]] = Field(default_factory=list)
 
     def add(self, *buttons: InlineKeyboardButton):
         row = list(buttons)
@@ -322,8 +294,7 @@ class InlineKeyboardMarkup:
         }
 
 
-@dataclass
-class CallbackQuery:
+class CallbackQuery(BaseModel):
     """Callback event from an inline button press.
 
     Corresponds to a ``message_event`` in VK API.
@@ -338,6 +309,26 @@ class CallbackQuery:
     _message: Message | None = None
     _from_user: User | None = None
 
+    class Config:
+        arbitrary_types_allowed = True
+
+    @validator('payload', pre=True)
+    def parse_payload(cls, v):
+        if isinstance(v, str):
+            try:
+                return json.loads(v)
+            except json.JSONDecodeError:
+                return {"data": v}
+        return v
+
+    @validator('data', always=True)
+    def extract_data_from_payload(cls, v, values):
+        if v is None and 'payload' in values:
+            payload = values['payload']
+            if isinstance(payload, dict):
+                return payload.get('data')
+        return v
+
     @property
     def message(self) -> Message | None:
         return self._message
@@ -346,31 +337,8 @@ class CallbackQuery:
     def from_user(self) -> User | None:
         return self._from_user
 
-    @classmethod
-    def from_dict(cls, data: dict) -> "CallbackQuery":
-        payload = data.get("payload")
-        if payload and isinstance(payload, str):
-            try:
-                payload = json.loads(payload)
-            except Exception:
-                pass
 
-        data_value = None
-        if payload and isinstance(payload, dict):
-            data_value = payload.get("data")
-
-        return cls(
-            id=data.get("event_id"),
-            from_id=data.get("user_id"),
-            peer_id=data.get("peer_id"),
-            message_id=data.get("conversation_message_id"),
-            payload=payload,
-            data=data_value,
-        )
-
-
-@dataclass
-class Update:
+class Update(BaseModel):
     """Update from VK Long Poll server.
 
     Contains event type and data object.
@@ -383,14 +351,38 @@ class Update:
     _message: Message | None = None
     _callback_query: CallbackQuery | None = None
 
+    class Config:
+        arbitrary_types_allowed = True
+        extra = "allow"
+
+    @validator('type')
+    def validate_type(cls, v):
+        valid_types = {
+            'message_new', 'message_reply', 'message_edit', 'message_event',
+            'message_allow', 'message_deny', 'photo_new', 'audio_new',
+            'video_new', 'wall_post_new', 'wall_repost', 'group_join',
+            'group_leave', 'user_online', 'user_offline'
+        }
+        if v not in valid_types:
+            print(f"Info: Unknown update type: {v}")
+        return v
+
     @property
     def message(self) -> Message | None:
         if self.type == "message_new" and not self._message:
-            self._message = Message.from_dict(self.object.get("message", {}))
+            message_data = self.object.get("message", {})
+            if message_data:
+                    self._message = Message(**message_data)
         return self._message
 
     @property
     def callback_query(self) -> CallbackQuery | None:
         if self.type == "message_event" and not self._callback_query:
-            self._callback_query = CallbackQuery.from_dict(self.object)
+            self._callback_query = CallbackQuery(
+                id=self.object.get("event_id"),
+                from_id=self.object.get("user_id"),
+                peer_id=self.object.get("peer_id"),
+                message_id=self.object.get("conversation_message_id", 0),
+                payload=self.object.get("payload"),
+            )
         return self._callback_query

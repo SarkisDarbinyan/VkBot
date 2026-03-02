@@ -9,7 +9,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from .exception import VKAPIError
+from vk_bot.exception import VKAPIError
+from vk_bot.types import Update
 
 API_URL = "https://api.vk.com/method/"
 API_VERSION = "5.131"
@@ -330,12 +331,20 @@ def parse_update(update_data: list) -> dict | None:
     return None
 
 
-def process_updates(raw_updates: dict) -> list[dict]:
+def process_updates(raw_updates: dict) -> list[Update]:
     """Extract updates from Bots Long Poll response.
 
     Returns events as-is since Bots Long Poll API returns
     ready-to-use JSON objects with type and object fields.
     """
+    updates_data = raw_updates.get("updates", [])
+    updates = []
+    for update_data in updates_data:
+        try:
+            update = Update(**update_data)
+            updates.append(update)
+        except Exception as e:
+            print(f"Error parsing update: {e}")
     return raw_updates.get("updates", [])
 
 

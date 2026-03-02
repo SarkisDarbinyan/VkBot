@@ -1,4 +1,4 @@
-from .manager import State
+from vk_bot.state.manager import State
 
 
 class StatesGroupMeta(type):

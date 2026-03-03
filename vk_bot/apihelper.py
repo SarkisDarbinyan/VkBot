@@ -5,9 +5,7 @@ from dataclasses import dataclass
 from io import BytesIO
 from typing import Any, BinaryIO
 
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+import httpx
 
 from vk_bot.exception import VKAPIError
 from vk_bot.types import Update
@@ -18,37 +16,28 @@ USER_AGENT = "VK Bot Python/0.1"
 TIMEOUT = 30
 LONG_POLL_TIMEOUT = 25
 
-_proxy: dict[str, str] | None = None
-_session: requests.Session | None = None
+_proxy: str | None = None
+_session: httpx.Client | None = None
 
 
-def get_session() -> requests.Session:
+def get_session() -> httpx.Client:
     global _session
     if _session is None:
-        _session = requests.Session()
-        _session.headers.update({
-            "User-Agent": USER_AGENT,
-        })
-
-        retry_strategy = Retry(
-            total=3,
-            backoff_factor=0.5,
-            status_forcelist=[429, 500, 502, 503, 504],
-            allowed_methods=["HEAD", "GET", "POST", "PUT", "DELETE"],
+        transport = httpx.HTTPTransport(retries=3)
+        _session = httpx.Client(
+            headers={"User-Agent": USER_AGENT},
+            transport=transport,
+            proxy=_proxy,
         )
-        adapter = HTTPAdapter(max_retries=retry_strategy)
-        _session.mount("http://", adapter)
-        _session.mount("https://", adapter)
-
-        if _proxy:
-            _session.proxies.update(_proxy)
 
     return _session
 
 
-def set_proxy(proxy: dict[str, str]):
+def set_proxy(proxy: str | None):
     global _proxy, _session
     _proxy = proxy
+    if _session is not None:
+        _session.close()
     _session = None
 
 
@@ -88,7 +77,7 @@ def _make_request(
 
         return data.get("response", {})
 
-    except requests.exceptions.RequestException as e:
+    except httpx.HTTPError as e:
         raise ConnectionError(f"Network error: {e}") from e
     except json.JSONDecodeError as e:
         raise ConnectionError(f"Invalid JSON response: {e}") from e
@@ -300,7 +289,7 @@ def get_long_poll_updates(
         response = session.get(url, timeout=wait + 5)
         response.raise_for_status()
         return response.json()
-    except requests.exceptions.RequestException as e:
+    except httpx.HTTPError as e:
         raise ConnectionError(f"Long poll error: {e}") from e
 
 

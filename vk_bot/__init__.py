@@ -10,7 +10,7 @@ from vk_bot import apihelper, exception, types, util
 from vk_bot.handlers import CallbackQueryHandler, MessageHandler, MiddlewareHandler
 from vk_bot.state.context import StateContext
 from vk_bot.state.group import StatesGroup
-from vk_bot.state.machine import FiniteStateMachine, FSMRegistry
+from vk_bot.state.fsm import VKBotFSM, FSMRegistry
 from vk_bot.state.manager import StateManager
 from vk_bot.state.storage import BaseStorage, MemoryStorage, RedisStorage, PostgresStorage
 
@@ -327,7 +327,7 @@ class VKBot:
 
     def _process_update(self, update_data: dict):
         update = types.Update(
-            update_id=0, type=update_data["type"], object=update_data["object"]
+            **update_data
         )
 
         for middleware in self.middleware_handlers:
@@ -368,7 +368,7 @@ class VKBot:
 
 __all__ = [
     "FSMRegistry",
-    "FiniteStateMachine",
+    "VKBotFSM",
     "MemoryStorage",
     "RedisStorage",
     "StateContext",

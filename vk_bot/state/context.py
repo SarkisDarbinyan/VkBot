@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any
-
-from vk_bot.state.machine import FiniteStateMachine, FSMRegistry
+from dataclasses import dataclass, field
+from vk_bot.state.fsm import VKBotFSM, FSMRegistry
 
 if TYPE_CHECKING:
     from vk_bot import VKBot
@@ -18,29 +18,31 @@ class StateContext:
         fsm_name: Finite state machine name.
     """
 
-    def __init__(self, bot: "VKBot", user_id: int, fsm_name: str = "default"):
-        self.bot = bot
-        self.user_id = user_id
-        self._manager = bot.state_manager
-        self._fsm = FSMRegistry.get_or_create(fsm_name)
-        current_state = self._manager.get_state(user_id)
-        self._fsm.current_state = current_state
+    bot: "VKBot"
+    user_id: int
+    fsm_name: str = "default"
+
+    _manager: Any = field(init=False, repr=False)
+    fsm: "VKBotFSM" = field(init=False)
+
+    def __post_init__(self):
+        self._manager = self.bot.state_manager
+        self.fsm = FSMRegistry.get_or_create(self.fsm_name)
+        current_state = self._manager.get_state(self.user_id)
+        if current_state:
+            self.fsm.machine.set_state(current_state)
 
     @property
     def current(self) -> str | None:
         return self._manager.get_state(self.user_id)
 
-    @property
-    def fsm(self) -> FiniteStateMachine:
-        return self._fsm
-
     def set(self, state: str) -> bool:
         current = self.current
 
-        if not self._fsm.can_transition(current, state, self):
+        if not self.fsm.can_transition(current, state, self):
             raise ValueError(f"Transition from '{current}' to '{state}' not allowed")
 
-        self._fsm.transition(current, state, self)
+        self.fsm.transition(current, state, self)
         self._manager.set_state(self.user_id, state)
         return True
 
@@ -49,9 +51,9 @@ class StateContext:
 
     def finish(self):
         self._manager.reset(self.user_id)
-        if self._fsm.current_state:
-            self._fsm.transition(self._fsm.current_state, None, self)
-        self._fsm.current_state = None
+        if self.fsm.current_state:
+            self.fsm.transition(self.fsm.current_state, None, self)
+        self.fsm.current_state = None
 
     @property
     def data(self) -> dict[str, Any]:
@@ -69,10 +71,10 @@ class StateContext:
     def is_in_group(self, group: str) -> bool:
         if not self.current:
             return False
-        return self._fsm.is_in_group(group)
+        return self.fsm.is_in_group(group)
 
     def get_next_states(self) -> list:
-        return self._fsm.get_next_states(self.current, self)
+        return self.fsm.get_next_states(self.current, self)
 
     def __getitem__(self, key: str) -> Any:
         return self.data.get(key)

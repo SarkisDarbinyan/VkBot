@@ -1,0 +1,793 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, SarkisDarbinyan
+# This file is distributed under the same license as the vk-bot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: vk-bot 0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-10 13:58+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../pages/api_reference.rst:2
+msgid "Справочник API"
+msgstr ""
+
+#: ../../pages/api_reference.rst:5
+msgid "VKBot"
+msgstr ""
+
+#: of vk_bot.VKBot:1
+msgid "Базовые классы: :py:class:`object`"
+msgstr ""
+
+#: of vk_bot.VKBot:1
+msgid "Main bot class for VK API interaction."
+msgstr ""
+
+#: of vk_bot.VKBot:3
+msgid ""
+"Provides an interface for sending messages, handling Long Poll events, "
+"and managing user states (FSM). Uses dishka DI container internally to "
+"manage HttpClient and ApiClient lifecycle."
+msgstr ""
+
+#: ../../pages/api_reference.rst
+msgid "Параметры"
+msgstr ""
+
+#: of vk_bot.VKBot:8
+msgid "VK community token."
+msgstr ""
+
+#: of vk_bot.VKBot:10
+msgid "Community ID. Resolved automatically if not provided."
+msgstr ""
+
+#: of vk_bot.VKBot:12
+msgid ""
+"State storage backend (MemoryStorage, RedisStorage, PostgresStorage). "
+"Defaults to MemoryStorage."
+msgstr ""
+
+#: of vk_bot.VKBot:14
+msgid "HTTP transport configuration (proxy, timeouts, retries)."
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:1
+msgid "Send a response to a callback button press."
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:4
+msgid "Callback event ID."
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:6
+msgid "User who pressed the button."
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:8
+msgid "Peer where the button was pressed."
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:10
+msgid "Event data dict (serialised to JSON automatically)."
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:12
+msgid "Shortcut — show a snackbar with this text."
+msgstr ""
+
+#: ../../pages/api_reference.rst
+msgid "Тип результата"
+msgstr ""
+
+#: of vk_bot.VKBot.answer_callback_query:14 vk_bot.VKBot.get_state_data:2
+#: vk_bot.VKBot.reply_to:4 vk_bot.VKBot.send_document:14
+#: vk_bot.VKBot.send_message:16 vk_bot.VKBot.send_photo:14
+#: vk_bot.state.storage.BaseStorage.get_data:2
+#: vk_bot.state.storage.MemoryStorage.get_data:2
+#: vk_bot.state.storage.PostgresStorage.get_data:2
+#: vk_bot.state.storage.RedisStorage.get_data:2
+#: vk_bot.types.InlineKeyboardButton.to_dict:2
+#: vk_bot.types.InlineKeyboardMarkup.to_dict:2
+#: vk_bot.types.KeyboardButton.to_dict:2
+#: vk_bot.types.ReplyKeyboardMarkup.to_dict:2
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`dict\\`\\\\ "
+"\\\\\\[\\:py\\:class\\:\\`str\\`\\, "
+"\\:py\\:data\\:\\`\\~typing.Any\\`\\]`"
+msgstr ""
+
+#: of vk_bot.VKBot.callback_query_handler:1
+msgid "Decorator for handling callback events (inline button presses)."
+msgstr ""
+
+#: of vk_bot.VKBot.callback_query_handler:3
+msgid "Handles ``message_event`` type events from VK API."
+msgstr ""
+
+#: of vk_bot.VKBot.callback_query_handler:6
+msgid "Custom filter function (takes CallbackQuery)."
+msgstr ""
+
+#: of vk_bot.VKBot.callback_query_handler:8
+msgid "String or regex pattern for callback_data filtering."
+msgstr ""
+
+#: of vk_bot.VKBot.callback_query_handler:10 vk_bot.VKBot.message_handler:14
+msgid "FSM state(s) that trigger this handler."
+msgstr ""
+
+#: of vk_bot.VKBot.callback_query_handler:12 vk_bot.VKBot.message_handler:16
+#: vk_bot.VKBot.middleware_handler:9
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`\\~collections.abc.Callable\\`\\\\"
+" \\\\\\[\\:py\\:data\\:\\`...\\<Ellipsis\\>\\`\\, "
+"\\:py\\:data\\:\\`\\~typing.Any\\`\\]`"
+msgstr ""
+
+#: of vk_bot.VKBot.close:1
+msgid "Close the DI container and release resources."
+msgstr ""
+
+#: of pydantic._internal._model_construction.init_private_attributes:10
+#: vk_bot.VKBot.close:4 vk_bot.VKBot.polling:10 vk_bot.VKBot.reset_state:2
+#: vk_bot.VKBot.set_state:2 vk_bot.VKBot.stop_polling:2
+#: vk_bot.VKBot.update_state_data:2
+#: vk_bot.state.context.StateContext.clear_data:4
+#: vk_bot.state.context.StateContext.finish:4
+#: vk_bot.state.context.StateContext.update:4
+#: vk_bot.state.fsm.FSMRegistry.clear:4 vk_bot.state.fsm.FSMRegistry.register:4
+#: vk_bot.state.fsm.VKBotFSM.execute_transition:16
+#: vk_bot.state.storage.BaseStorage.delete:2
+#: vk_bot.state.storage.BaseStorage.set_data:2
+#: vk_bot.state.storage.BaseStorage.set_state:2
+#: vk_bot.state.storage.BaseStorage.update_data:2
+#: vk_bot.state.storage.MemoryStorage.delete:2
+#: vk_bot.state.storage.MemoryStorage.set_data:2
+#: vk_bot.state.storage.MemoryStorage.set_state:2
+#: vk_bot.state.storage.MemoryStorage.update_data:2
+#: vk_bot.state.storage.PostgresStorage.close:4
+#: vk_bot.state.storage.PostgresStorage.delete:2
+#: vk_bot.state.storage.PostgresStorage.set_data:2
+#: vk_bot.state.storage.PostgresStorage.set_state:2
+#: vk_bot.state.storage.PostgresStorage.update_data:2
+#: vk_bot.state.storage.RedisStorage.delete:2
+#: vk_bot.state.storage.RedisStorage.set_data:2
+#: vk_bot.state.storage.RedisStorage.set_state:2
+#: vk_bot.state.storage.RedisStorage.update_data:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:obj\\:\\`None\\``"
+msgstr ""
+
+#: of vk_bot.VKBot.get_state:2 vk_bot.state.context.StateContext.get:4
+#: vk_bot.state.group.StatesGroup.get_state:2
+#: vk_bot.state.storage.BaseStorage.get_state:2
+#: vk_bot.state.storage.MemoryStorage.get_state:2
+#: vk_bot.state.storage.PostgresStorage.get_state:2
+#: vk_bot.state.storage.RedisStorage.get_state:2
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`str\\` \\| "
+"\\:py\\:obj\\:\\`None\\``"
+msgstr ""
+
+#: of vk_bot.VKBot.message_handler:1
+msgid "Decorator for registering incoming message handlers."
+msgstr ""
+
+#: of vk_bot.VKBot.message_handler:4
+msgid "List of commands (without '/'), e.g. ['start', 'help']."
+msgstr ""
+
+#: of vk_bot.VKBot.message_handler:6
+msgid "Regular expression for text filtering."
+msgstr ""
+
+#: of vk_bot.VKBot.message_handler:8
+msgid "Custom filter function (takes Message, returns bool)."
+msgstr ""
+
+#: of vk_bot.VKBot.message_handler:10
+msgid "Content types ('text', 'photo', 'doc', etc.)."
+msgstr ""
+
+#: of vk_bot.VKBot.message_handler:12
+msgid "Chat types ('private', 'group')."
+msgstr ""
+
+#: of vk_bot.VKBot.middleware_handler:1
+msgid "Decorator for registering middleware."
+msgstr ""
+
+#: of vk_bot.VKBot.middleware_handler:3
+msgid ""
+"Middleware is called before handlers. If it returns False, event "
+"processing is stopped."
+msgstr ""
+
+#: of vk_bot.VKBot.middleware_handler:7
+msgid "Event types to filter (None = all)."
+msgstr ""
+
+#: of vk_bot.VKBot.polling:1
+msgid "Start Long Poll server polling."
+msgstr ""
+
+#: of vk_bot.VKBot.polling:3
+msgid "Uses Bots Long Poll API to receive events."
+msgstr ""
+
+#: of vk_bot.VKBot.polling:6
+msgid "If True, restarts on errors."
+msgstr ""
+
+#: of vk_bot.VKBot.polling:8
+msgid "Delay between retries on error (seconds)."
+msgstr ""
+
+#: of vk_bot.VKBot.reply_to:1
+msgid "Reply to a message (automatically uses chat_id and reply_to)."
+msgstr ""
+
+#: of vk_bot.VKBot.send_document:1
+msgid "Send a document."
+msgstr ""
+
+#: of vk_bot.VKBot.send_document:3
+msgid "Uploads via ``docs.getMessagesUploadServer`` and sends."
+msgstr ""
+
+#: of vk_bot.VKBot.send_document:6 vk_bot.VKBot.send_message:6
+#: vk_bot.VKBot.send_photo:6
+msgid "User or conversation ID."
+msgstr ""
+
+#: of vk_bot.VKBot.send_document:8 vk_bot.VKBot.send_photo:8
+msgid "File path, bytes, or file-like object."
+msgstr ""
+
+#: of vk_bot.VKBot.send_document:10
+msgid "Document caption."
+msgstr ""
+
+#: of vk_bot.VKBot.send_document:12 vk_bot.VKBot.send_photo:12
+msgid "Keyboard."
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:1
+msgid "Send a text message to a user or chat."
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:3
+msgid "Uses VK API method ``messages.send``."
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:8
+msgid "Message text."
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:10
+msgid "Keyboard (ReplyKeyboardMarkup or InlineKeyboardMarkup)."
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:12
+msgid "ID of the message to reply to."
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:14
+msgid "Additional VK API parameters."
+msgstr ""
+
+#: ../../pages/api_reference.rst
+msgid "Результат"
+msgstr ""
+
+#: of vk_bot.VKBot.send_message:17
+msgid "VK API response."
+msgstr ""
+
+#: of vk_bot.VKBot.send_photo:1
+msgid "Send a photo."
+msgstr ""
+
+#: of vk_bot.VKBot.send_photo:3
+msgid "Uploads via ``photos.getMessagesUploadServer`` and sends."
+msgstr ""
+
+#: of vk_bot.VKBot.send_photo:10
+msgid "Photo caption."
+msgstr ""
+
+#: ../../pages/api_reference.rst:13
+msgid "Типы"
+msgstr ""
+
+#: of vk_bot.types.Audio:1 vk_bot.types.CallbackQuery:1 vk_bot.types.Chat:1
+#: vk_bot.types.Document:1 vk_bot.types.InlineKeyboardButton:1
+#: vk_bot.types.InlineKeyboardMarkup:1 vk_bot.types.KeyboardButton:1
+#: vk_bot.types.Message:1 vk_bot.types.Photo:1
+#: vk_bot.types.ReplyKeyboardMarkup:1 vk_bot.types.Update:1 vk_bot.types.User:1
+#: vk_bot.types.Video:1
+msgid "Базовые классы: :py:class:`~pydantic.main.BaseModel`"
+msgstr ""
+
+#: ../../docstring of vk_bot.types.Audio.model_config:1
+#: vk_bot.types.CallbackQuery.model_config:1 vk_bot.types.Chat.model_config:1
+#: vk_bot.types.Document.model_config:1
+#: vk_bot.types.InlineKeyboardButton.model_config:1
+#: vk_bot.types.InlineKeyboardMarkup.model_config:1
+#: vk_bot.types.KeyboardButton.model_config:1
+#: vk_bot.types.Message.model_config:1 vk_bot.types.Photo.model_config:1
+#: vk_bot.types.ReplyKeyboardMarkup.model_config:1
+#: vk_bot.types.Update.model_config:1 vk_bot.types.User.model_config:1
+#: vk_bot.types.Video.model_config:1
+msgid ""
+"Configuration for the model, should be a dictionary conforming to "
+"[`ConfigDict`][pydantic.config.ConfigDict]."
+msgstr ""
+
+#: of vk_bot.types.CallbackQuery:1
+msgid "Callback event from an inline button press."
+msgstr ""
+
+#: of vk_bot.types.CallbackQuery:3
+msgid "Corresponds to a ``message_event`` in VK API."
+msgstr ""
+
+#: of vk_bot.types.CallbackQuery.extract_data_from_payload:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`\\~vk\\_bot.types.CallbackQuery\\``"
+msgstr ""
+
+#: of pydantic._internal._model_construction.init_private_attributes:1
+msgid ""
+"This function is meant to behave like a BaseModel method to initialise "
+"private attributes."
+msgstr ""
+
+#: of pydantic._internal._model_construction.init_private_attributes:3
+msgid ""
+"It takes context as an argument since that's what pydantic-core passes "
+"when calling it."
+msgstr ""
+
+#: of pydantic._internal._model_construction.init_private_attributes:6
+msgid "The BaseModel instance."
+msgstr ""
+
+#: of pydantic._internal._model_construction.init_private_attributes:8
+msgid "The context."
+msgstr ""
+
+#: of vk_bot.types.CallbackQuery.parse_payload:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:data\\:\\`\\~typing.Any\\``"
+msgstr ""
+
+#: of vk_bot.types.Chat.from_peer_id:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`\\~vk\\_bot.types.Chat\\``"
+msgstr ""
+
+#: of vk_bot.types.InlineKeyboardButton:1
+msgid "Inline keyboard button (callback, link, or VK App)."
+msgstr ""
+
+#: of vk_bot.types.InlineKeyboardMarkup:1
+msgid "Inline keyboard embedded in a message."
+msgstr ""
+
+#: of vk_bot.types.InlineKeyboardMarkup:3
+msgid "Callback buttons send a ``message_event``."
+msgstr ""
+
+#: of vk_bot.types.InlineKeyboardMarkup.add:2
+#: vk_bot.types.InlineKeyboardMarkup.row:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`\\~vk\\_bot.types.InlineKeyboardMarkup\\``"
+msgstr ""
+
+#: of vk_bot.types.KeyboardButton:1
+msgid "Reply keyboard button."
+msgstr ""
+
+#: of vk_bot.types.Message:1
+msgid "Incoming message."
+msgstr ""
+
+#: of vk_bot.types.Message:3
+msgid "Corresponds to the ``message`` object in ``message_new`` VK API event."
+msgstr ""
+
+#: of vk_bot.types.Message.get_documents:2
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`list\\`\\\\ "
+"\\\\\\[\\:py\\:class\\:\\`\\~vk\\_bot.types.Document\\`\\]`"
+msgstr ""
+
+#: of vk_bot.types.Message.get_photos:2
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`list\\`\\\\ "
+"\\\\\\[\\:py\\:class\\:\\`\\~vk\\_bot.types.Photo\\`\\]`"
+msgstr ""
+
+#: of vk_bot.types.ReplyKeyboardMarkup:1
+msgid "Reply keyboard displayed below the input field."
+msgstr ""
+
+#: of vk_bot.types.ReplyKeyboardMarkup:3
+msgid "Corresponds to the ``keyboard`` object in VK API."
+msgstr ""
+
+#: of vk_bot.types.ReplyKeyboardMarkup.add:2
+#: vk_bot.types.ReplyKeyboardMarkup.row:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`\\~vk\\_bot.types.ReplyKeyboardMarkup\\``"
+msgstr ""
+
+#: of vk_bot.types.Update:1
+msgid "Update from VK Long Poll server."
+msgstr ""
+
+#: of vk_bot.types.Update:3
+msgid ""
+"Contains event type and data object. Supports lazy parsing of message and"
+" callback_query."
+msgstr ""
+
+#: of vk_bot.types.Update.validate_type:2
+#: vk_bot.types.build_attachment_string:4
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`str\\``"
+msgstr ""
+
+#: of vk_bot.types.User:1
+msgid "VK user object."
+msgstr ""
+
+#: of vk_bot.types.User:3
+msgid "Corresponds to the ``user`` object in VK API."
+msgstr ""
+
+#: of vk_bot.types.build_attachment_string:1
+msgid ""
+"Build a VK attachment string like ``photo-123_456`` or ``photo-"
+"123_456_key``."
+msgstr ""
+
+#: of vk_bot.types.parse_attachment_string:1
+msgid "Parse a VK attachment string (e.g. ``photo123_456_key``)."
+msgstr ""
+
+#: of vk_bot.types.parse_attachment_string:3
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`tuple\\`\\\\ "
+"\\\\\\[\\:py\\:class\\:\\`str\\` \\| \\:py\\:obj\\:\\`None\\`\\, "
+"\\:py\\:class\\:\\`int\\` \\| \\:py\\:obj\\:\\`None\\`\\, "
+"\\:py\\:class\\:\\`int\\` \\| \\:py\\:obj\\:\\`None\\`\\, "
+"\\:py\\:class\\:\\`str\\` \\| \\:py\\:obj\\:\\`None\\`\\]`"
+msgstr ""
+
+#: of vk_bot.types.parse_attachment_string:4
+msgid "Tuple of ``(type, owner_id, media_id, access_key)``."
+msgstr ""
+
+#: ../../pages/api_reference.rst:21
+msgid "FSM"
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM:1
+msgid "Finite-state-machine graph shared across all users."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM:3
+msgid ""
+"Use :meth:`set_initial`, :meth:`add_state`, :meth:`add_transition` to "
+"define the graph, then let :class:`~vk_bot.state.context.StateContext` "
+"drive per-user transitions."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM:8
+msgid "Identifier used by :class:`FSMRegistry`."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_state:1
+msgid "Register a state in the graph."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_state:4
+msgid "State name."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_state:6
+msgid "Optional group name for grouping related states."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_state:8
+msgid "Callback invoked when entering this state."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_state:10
+msgid "Callback invoked when exiting this state."
+msgstr ""
+
+#: of vk_bot.state.fsm.FSMRegistry.get_or_create:4
+#: vk_bot.state.fsm.VKBotFSM.add_state:12
+#: vk_bot.state.fsm.VKBotFSM.add_transition:13
+#: vk_bot.state.fsm.VKBotFSM.set_initial:8
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`\\~vk\\_bot.state.fsm.VKBotFSM\\``"
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_transition:1
+msgid "Register an allowed transition between two states."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_transition:4
+msgid "Source state."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_transition:6
+#: vk_bot.state.fsm.VKBotFSM.execute_transition:12
+msgid "Destination state."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_transition:8
+msgid ""
+"Callable ``(context) -> bool``; transition is blocked if it returns "
+"``False``."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.add_transition:11
+msgid "Callable invoked during the transition."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.can_transition:1
+msgid "Return ``True`` if the transition ``from_state → to_state`` is allowed."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.can_transition:3
+msgid ""
+"A transition is allowed when it exists in the graph *and* all registered "
+"conditions evaluate to ``True``."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.can_transition:6
+msgid ""
+"If ``from_state`` is ``None`` or no Machine has been defined, every "
+"transition is permitted (open FSM)."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.is_in_group:4
+#: vk_bot.state.context.StateContext.is_state:4
+#: vk_bot.state.context.StateContext.set:9
+#: vk_bot.state.fsm.VKBotFSM.can_transition:10
+#: vk_bot.state.fsm.VKBotFSM.is_in_group:8
+#: vk_bot.state.group.StatesGroup.is_in_group:2
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`bool\\``"
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.execute_transition:1
+msgid "Execute callbacks associated with a transition."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.execute_transition:3
+msgid ""
+"Runs (in order): on_exit of ``from_state``, transition ``action``, "
+"on_enter of ``to_state``."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.execute_transition:6
+msgid ""
+"Does **not** store any state — the caller is responsible for persisting "
+"the new state to storage."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.execute_transition:10
+msgid "Current state (``None`` for the very first transition)."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.execute_transition:14
+msgid "Arbitrary context object forwarded to each callback."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.get_next_states:1
+msgid "Return the list of states reachable from ``from_state``."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.get_next_states:3
+msgid "Deduplicates destinations so each state appears at most once."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get_next_states:4
+#: vk_bot.state.fsm.VKBotFSM.get_next_states:6
+#: vk_bot.state.group.StatesGroup.get_all_states:2
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`list\\`\\\\ "
+"\\\\\\[\\:py\\:class\\:\\`str\\`\\]`"
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.is_in_group:1
+msgid "Return ``True`` if ``state`` belongs to ``group``."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.is_in_group:4
+msgid "The current state string (read from storage by the caller)."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.is_in_group:6
+msgid "Group name to check membership in."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.set_initial:1
+msgid "Set the initial state and create the internal Machine graph."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.set_initial:3
+msgid "Must be called before :meth:`add_state` or :meth:`add_transition`."
+msgstr ""
+
+#: of vk_bot.state.fsm.VKBotFSM.set_initial:6
+msgid "Name of the initial state."
+msgstr ""
+
+#: of vk_bot.state.fsm.FSMRegistry:1
+msgid "Global registry of named :class:`VKBotFSM` instances."
+msgstr ""
+
+#: of vk_bot.state.fsm.FSMRegistry:3
+msgid ""
+"One FSM graph is defined per logical flow (e.g. ``\"registration\"``). It"
+" is shared between all users; **it does not store per-user state**."
+msgstr ""
+
+#: of vk_bot.state.fsm.FSMRegistry.clear:1
+msgid "Remove all registered FSMs (primarily used in tests)."
+msgstr ""
+
+#: of vk_bot.state.fsm.FSMRegistry.get_or_create:1
+msgid "Return an existing FSM by name or create a fresh one."
+msgstr ""
+
+#: of vk_bot.state.fsm.FSMRegistry.register:1
+msgid "Manually register a pre-built FSM under ``name``."
+msgstr ""
+
+#: ../../pages/api_reference.rst:32
+msgid "Группы состояний"
+msgstr ""
+
+#: ../../pages/api_reference.rst:43
+msgid "Контекст состояния"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:1
+msgid "User state context."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:3
+msgid ""
+"Provides a convenient interface for managing FSM states and user data "
+"within handlers."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:7
+msgid "VKBot instance."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:9
+msgid "User ID."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:11
+msgid "Finite state machine name."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.clear_data:1
+msgid "Clear all user data without resetting the state."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.current:1
+msgid "Current state of this user, read from storage."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.data:1
+msgid "User data stored alongside the state."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.finish:1
+msgid "Reset the user's state and clear all stored data."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get:1
+msgid "Return the current state (alias for :attr:`current`)."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get_next_states:1
+msgid "Return all states reachable from the user's current state."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.is_in_group:1
+msgid "Return ``True`` if the user's current state belongs to ``group``."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.is_state:1
+msgid "Return ``True`` if the user is currently in ``state``."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.set:1
+msgid "Transition the user to ``state``."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.set:3
+msgid ""
+"Validates the transition against the FSM graph, executes any registered "
+"callbacks, then persists the new state to storage."
+msgstr ""
+
+#: ../../pages/api_reference.rst
+msgid "Исключение"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.set:6
+msgid "If the transition is not allowed by the graph."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.update:1
+msgid "Merge ``kwargs`` into the user's stored data."
+msgstr ""
+
+#: ../../pages/api_reference.rst:50
+msgid "Хранилище"
+msgstr ""
+
+#: of vk_bot.state.storage.BaseStorage:1
+msgid "Abstract base class for state storage backends."
+msgstr ""
+
+#: of vk_bot.state.storage.MemoryStorage:1
+msgid "In-memory state storage."
+msgstr ""
+
+#: of vk_bot.state.storage.MemoryStorage:3
+msgid "Data is lost on restart. Suitable for development."
+msgstr ""
+
+#: of vk_bot.state.storage.RedisStorage:1
+msgid "Redis-backed state storage."
+msgstr ""
+
+#: of vk_bot.state.storage.RedisStorage:3
+msgid "Persistent storage. Suitable for production."
+msgstr ""
+
+#: of vk_bot.state.storage.PostgresStorage:1
+msgid "PostgreSQL-backed state storage using psycopg3 (synchronous)."
+msgstr ""
+
+#: of vk_bot.state.storage.PostgresStorage:3
+msgid "Persistent storage with full transaction support. Suitable for production."
+msgstr ""
+
+#: of vk_bot.state.storage.PostgresStorage:5
+msgid "Requires the ``postgres`` extra: ``pip install vk-bot[postgres]``."
+msgstr ""
+
+#: of vk_bot.state.storage.PostgresStorage:8
+msgid ""
+"PostgreSQL connection string, e.g. "
+"``postgresql://user:pass@localhost/dbname``."
+msgstr ""
+
+#: of vk_bot.state.storage.PostgresStorage:11
+msgid "Prefix for the tables created by this storage."
+msgstr ""
+
+#: of vk_bot.state.storage.PostgresStorage.close:1
+msgid "Close the database connection."
+msgstr ""
+

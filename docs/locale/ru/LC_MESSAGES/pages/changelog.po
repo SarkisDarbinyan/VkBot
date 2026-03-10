@@ -1,0 +1,108 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, SarkisDarbinyan
+# This file is distributed under the same license as the vk-bot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: vk-bot 0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-10 13:58+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../pages/changelog.rst:2
+msgid "История изменений"
+msgstr ""
+
+#: ../../pages/changelog.rst:5
+msgid "0.2.0"
+msgstr ""
+
+#: ../../pages/changelog.rst:7
+msgid ""
+"Рефакторинг архитектуры FSM: ``VKBotFSM`` теперь представляет собой граф "
+"без состояния (``Machine(model=[])``)."
+msgstr ""
+
+#: ../../pages/changelog.rst:8
+msgid ""
+"Пользовательские состояния хранятся исключительно в "
+"``StateManager``/storage — удалено общее свойство ``current_state``."
+msgstr ""
+
+#: ../../pages/changelog.rst:9
+msgid ""
+"Метод ``is_in_group()`` теперь явно принимает строку состояния и читает "
+"её из хранилища."
+msgstr ""
+
+#: ../../pages/changelog.rst:10
+msgid ""
+"Добавлен метод ``execute_transition()`` для выполнения коллбэков "
+"on_enter/on_exit/action без сохранения состояния в storage."
+msgstr ""
+
+#: ../../pages/changelog.rst:11
+msgid "Исправлена бесконечная рекурсия в ``PostgresStorage._init_tables``."
+msgstr ""
+
+#: ../../pages/changelog.rst:12
+msgid ""
+"Скорректирован приоритет ``content_type``: проверка вложений выполняется "
+"до проверки текста."
+msgstr ""
+
+#: ../../pages/changelog.rst:13
+msgid "Метод ``answer_callback_query`` перенесен в публичный класс ``ApiClient``."
+msgstr ""
+
+#: ../../pages/changelog.rst:14
+msgid "Версия пакета в ``pyproject.toml`` обновлена до ``0.2.0``."
+msgstr ""
+
+#: ../../pages/changelog.rst:15
+msgid ""
+"Из класса ``VKBot`` удалены методы ``get_fsm()`` и ``set_fsm_state()`` "
+"(ранее они опирались на удаленный ``current_state``)."
+msgstr ""
+
+#: ../../pages/changelog.rst:18
+msgid "0.1.0"
+msgstr ""
+
+#: ../../pages/changelog.rst:20
+msgid "Первый релиз."
+msgstr ""
+
+#: ../../pages/changelog.rst:21
+msgid "Поддержка Long Poll событий ``message_new`` и ``message_event``."
+msgstr ""
+
+#: ../../pages/changelog.rst:22
+msgid ""
+"FSM с поддержкой хранилищ: ``MemoryStorage``, ``RedisStorage``, "
+"``PostgresStorage``."
+msgstr ""
+
+#: ../../pages/changelog.rst:23
+msgid "Обычные (Reply) и Inline-клавиатуры."
+msgstr ""
+
+#: ../../pages/changelog.rst:24
+msgid "Поддержка загрузки фотографий и документов."
+msgstr ""
+
+#: ../../pages/changelog.rst:25
+msgid "API на основе дескрипторов ``StatesGroup``."
+msgstr ""
+

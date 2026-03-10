@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, SarkisDarbinyan
+# This file is distributed under the same license as the vk-bot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: vk-bot 0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-10 13:58+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../index.rst:6
+msgid "Руководство пользователя"
+msgstr ""
+
+#: ../../index.rst:4
+msgid "vk-bot"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "Индексы и таблицы"
+msgstr ""
+
+#: ../../index.rst:18
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../index.rst:19
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../index.rst:20
+msgid ":ref:`search`"
+msgstr ""
+

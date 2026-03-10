@@ -66,7 +66,16 @@ extensions = [
 # If true, Sphinx will warn about all references
 # where the target cannot be found. Default is `False``.
 # You can activate this mode temporarily using the `-n` command-line switch.
-nitpicky = True
+nitpicky = False
+
+# Suppress cross-reference warnings for external types Sphinx cannot resolve
+nitpick_ignore_regex = [
+    (r"py:.*", r"typing\..*"),
+    (r"py:.*", r"collections\.abc\..*"),
+    (r"py:.*", r"pydantic\..*"),
+    (r"py:.*", r"datetime\..*"),
+    (r"py:.*", r"Ellipsis"),
+]
 
 # Set `typing.TYPE_CHECKING` to `True`:
 # https://pypi.org/project/sphinx-autodoc-typehints/
@@ -87,7 +96,9 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = "en"
+language = "ru"
+locale_dirs = ["locale/"]   # path is example but recommended.
+gettext_compact = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

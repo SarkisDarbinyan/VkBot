@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, SarkisDarbinyan
+# This file is distributed under the same license as the vk-bot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: vk-bot 0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-10 13:58+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../pages/fsm.rst:2
+msgid "Конечный автомат состояний (FSM)"
+msgstr ""
+
+#: ../../pages/fsm.rst:4
+msgid ""
+"Менеджер состояний (FSM) в ``vk-bot`` позволяет реализовывать "
+"многошаговые сценарии (формы, опросы, онбординг), закрепляя *текущее "
+"состояние* за каждым пользователем. Данные состояний могут храниться в "
+"оперативной памяти (in-memory), Redis или PostgreSQL."
+msgstr ""
+
+#: ../../pages/fsm.rst:9
+msgid "Основная концепция"
+msgstr ""
+
+#: ../../pages/fsm.rst:11
+msgid ""
+":class:`~vk_bot.state.fsm.VKBotFSM` — **граф переходов без состояния**. "
+"Общий для всех пользователей."
+msgstr ""
+
+#: ../../pages/fsm.rst:12
+msgid ""
+":class:`~vk_bot.state.manager.StateManager` — сохраняет состояние каждого"
+" пользователя в хранилище."
+msgstr ""
+
+#: ../../pages/fsm.rst:13
+msgid ""
+":class:`~vk_bot.state.context.StateContext` — интерфейс для обработчиков:"
+" ``state.set()``, ``state.data``, ``state.finish()``."
+msgstr ""
+
+#: ../../pages/fsm.rst:16
+msgid "Объявление состояний"
+msgstr ""
+
+#: ../../pages/fsm.rst:28
+msgid "Использование состояний в обработчиках"
+msgstr ""
+
+#: ../../pages/fsm.rst:58
+msgid "Хранилища состояний"
+msgstr ""
+
+#: ../../pages/fsm.rst:60
+msgid "**In-memory** (по умолчанию, без зависимостей):"
+msgstr ""
+
+#: ../../pages/fsm.rst:66
+msgid "**Redis:**"
+msgstr ""
+
+#: ../../pages/fsm.rst:75
+msgid "**PostgreSQL:**"
+msgstr ""
+
+#: ../../pages/fsm.rst:87
+msgid "Граф FSM с переходами"
+msgstr ""
+
+#: ../../pages/fsm.rst:89
+msgid "Для строгого управления навигацией задайте явный граф FSM:"
+msgstr ""
+
+#: ../../pages/fsm.rst:104
+msgid "API StateContext"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:1
+msgid "User state context."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:3
+msgid ""
+"Provides a convenient interface for managing FSM states and user data "
+"within handlers."
+msgstr ""
+
+#: ../../pages/fsm.rst
+msgid "Параметры"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:7
+msgid "VKBot instance."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:9
+msgid "User ID."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext:11
+msgid "Finite state machine name."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.clear_data:1
+msgid "Clear all user data without resetting the state."
+msgstr ""
+
+#: ../../pages/fsm.rst
+msgid "Тип результата"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.clear_data:4
+#: vk_bot.state.context.StateContext.finish:4
+#: vk_bot.state.context.StateContext.update:4
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:obj\\:\\`None\\``"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.current:1
+msgid "Current state of this user, read from storage."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.data:1
+msgid "User data stored alongside the state."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.finish:1
+msgid "Reset the user's state and clear all stored data."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get:1
+msgid "Return the current state (alias for :attr:`current`)."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get:4
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`str\\` \\| "
+"\\:py\\:obj\\:\\`None\\``"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get_next_states:1
+msgid "Return all states reachable from the user's current state."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.get_next_states:4
+msgid ""
+":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`list\\`\\\\ "
+"\\\\\\[\\:py\\:class\\:\\`str\\`\\]`"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.is_in_group:1
+msgid "Return ``True`` if the user's current state belongs to ``group``."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.is_in_group:4
+#: vk_bot.state.context.StateContext.is_state:4
+#: vk_bot.state.context.StateContext.set:9
+msgid ":sphinx_autodoc_typehints_type:`\\:py\\:class\\:\\`bool\\``"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.is_state:1
+msgid "Return ``True`` if the user is currently in ``state``."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.set:1
+msgid "Transition the user to ``state``."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.set:3
+msgid ""
+"Validates the transition against the FSM graph, executes any registered "
+"callbacks, then persists the new state to storage."
+msgstr ""
+
+#: ../../pages/fsm.rst
+msgid "Исключение"
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.set:6
+msgid "If the transition is not allowed by the graph."
+msgstr ""
+
+#: of vk_bot.state.context.StateContext.update:1
+msgid "Merge ``kwargs`` into the user's stored data."
+msgstr ""
+

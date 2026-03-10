@@ -1439,6 +1439,18 @@ files = [
 ]
 
 [[package]]
+name = "six"
+version = "1.17.0"
+description = "Python 2 and 3 compatibility utilities"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+groups = ["main"]
+files = [
+    {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
+    {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
+]
+
+[[package]]
 name = "sniffio"
 version = "1.3.1"
 description = "Sniff out which async library your code is running under"
@@ -1715,6 +1727,25 @@ files = [
 ]
 
 [[package]]
+name = "transitions"
+version = "0.9.3"
+description = "A lightweight, object-oriented Python state machine implementation with many extensions."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "transitions-0.9.3-py2.py3-none-any.whl", hash = "sha256:02463248f2b668d86f66636b1e3c9e8de84d93e22915247f4e1aa9ee1cae28aa"},
+    {file = "transitions-0.9.3.tar.gz", hash = "sha256:881fb75bb1654ed55d86060bb067f2c716f8e155f57bb73fd444e53713aafec8"},
+]
+
+[package.dependencies]
+six = "*"
+
+[package.extras]
+diagrams = ["pygraphviz"]
+test = ["pytest"]
+
+[[package]]
 name = "typing-extensions"
 version = "4.15.0"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -1796,4 +1827,4 @@ postgres = ["psycopg"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "943fa5511a14298fa121c3765ab976ee3d1d6760a8fc2793e871aa9e9526c906"
+content-hash = "cfdfaef6a221729bc2f4d45c3b53374e9db4a341d8bac8385ab3f86b110a7e9e"

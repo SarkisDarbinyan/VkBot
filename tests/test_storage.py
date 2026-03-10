@@ -17,6 +17,7 @@ from vk_bot.state.storage import (
     PostgresStorage,
     RedisStorage,
 )
+from vk_bot.state import storage as _storage_mod
 
 
 @pytest.fixture(autouse=True)
@@ -112,6 +113,9 @@ class TestMemoryStorage:
         memory.delete(999)
 
 
+@pytest.mark.skipif(
+    not _storage_mod.redis_installed, reason="redis not installed"
+)
 class TestRedisStorage:
     @staticmethod
     def _make() -> tuple[RedisStorage, MagicMock]:
@@ -210,6 +214,9 @@ class TestRedisImportBranch:
             importlib.reload(mod)
 
 
+@pytest.mark.skipif(
+    not _storage_mod.postgres_installed, reason="psycopg not installed"
+)
 class TestPostgresStorage:
     def test_import_error_when_not_installed(self):
         import vk_bot.state.storage as mod

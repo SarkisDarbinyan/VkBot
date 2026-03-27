@@ -42,7 +42,7 @@ postgres = ["psycopg"]
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.19"
 
-wemake-python-styleguide = "^1.5"
+wemake-python-styleguide = "^1.6"
 ruff = "^0.14"
 
 pytest = "^9.0"
